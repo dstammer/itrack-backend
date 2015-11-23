@@ -111,6 +111,7 @@ module.exports.sync = function (app, results, cb) {
             } else if (accessType == "user") {
                 if (type == "get") {
                     app.get("/api/" + method, express.bodyParser({limit: '1000mb'}), function (req, res, next) {
+						return next();
                         if (req.isAuthenticated()) {
                             return next();
                         } else {
@@ -119,6 +120,7 @@ module.exports.sync = function (app, results, cb) {
                     }, controller[name]);
                 } else if (type == "post") {
                     app.post("/api/" + method, express.bodyParser({limit: '1000mb'}), function (req, res, next) {
+						return next();
                        if (req.isAuthenticated())  {
                            return next();
                        } else {

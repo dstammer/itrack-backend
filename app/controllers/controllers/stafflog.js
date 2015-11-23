@@ -22,7 +22,7 @@ module.exports = function (opts) {
         },
 
 		"post#stafflogs/get" : function(req, res) {
-			staffLogModel.find({}).sort({timestamp : -1}).exec(function( err, logs ){
+			staffLogModel.find({}).sort({timestamp : 1}).exec(function( err, logs ){
 				if(err){
 					return res.json({ success : false, error : "Internal server error" });
 				} else {

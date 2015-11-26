@@ -19,7 +19,7 @@ module.exports = function (opts) {
 				return res.json({ success : false, error : "Insufficient permission" });
 			}
                             
-			var query = userModel.findOne({name: name});
+			var query = userModel.findOne({email: email});
             query.exec(function (err, user) {
                 if (err) {
                     console.log(err);

@@ -16,23 +16,25 @@ module.exports = function (opts) {
 				city = req.body.city,
 				postcode = req.body.postcode,
 				lat = req.body.lat,
-				lng = req.body.lng;
+				lng = req.body.lng,
+				id = req.body.id;
 
 			if (!req.user.role || !(req.user.role != "1" || req.user.role != "2"))
 			{
 				return res.json({ success : false, error : "Insufficient permission" });
 			}
                             
-			var query = siteModel.findOne({name : name, company : company});
+			var query = siteModel.findOne({_id : id, company : company});
             query.exec(function (err, site) {
                 if (err) {
                     console.log(err);
                     return res.json({ success : false, error : "Internal server error" });
                 } else if (site) {
-					return res.json({ success : false, exist : true });
-                }
 					
-				site = new siteModel();
+                } else {
+					site = new siteModel();
+					site.createdAt = new Date().getTime();
+				}
 
 				site.name = name;
 				console.log(company);
@@ -51,6 +53,7 @@ module.exports = function (opts) {
 				site.postcode = postcode;
 				site.lat = lat;
 				site.lng = lng;
+				
 				
 				site.save(function (err, site) {
 					if (err) {

@@ -42,7 +42,7 @@ app.configure(function () {
     app.use(express.urlencoded({limit: '50mb'}));
     app.use(express.methodOverride());
 //    app.use(express.session({ secret: secretKey, store: store, cookie: { secure: false, maxAge: 86400000 }, maxAge: 360*5}));
-    app.use(express.cookieSession({ secret: secretKey, store: store, cookie: { secure: false, maxAge: 86400000 }, maxAge: 360*5}));
+    app.use(express.cookieSession({ secret: secretKey, store: store, cookie: { secure: false, maxAge: 3600000  }, maxAge: 360*5}));
     app.use(passport.initialize());
     app.use(passport.session());
 	app.use(flash());

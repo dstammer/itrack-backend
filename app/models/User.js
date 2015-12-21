@@ -6,6 +6,10 @@ module.exports = function (opts) {
             type: mongoose.Schema.ObjectId,
             ref: "Company"
 		}],
+		ownedCompany : [{
+            type: mongoose.Schema.ObjectId,
+            ref: "Company"
+		}],
 		site : [{
             type: mongoose.Schema.ObjectId,
             ref: "Site"

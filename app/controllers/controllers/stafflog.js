@@ -15,17 +15,22 @@ module.exports = function (opts) {
 					return res.json({success : false, error : "Internal server eror" });
 				}
 
-				console.log(log);
-
 				if(log && log.type == type){
 					if(type == "IN") return res.json({success : false, error : "A staff with the same SiteSafe Passport is already signed in."});
 					else return res.json({success : false, error : "A staff with the same SiteSafe Passport is already signed out."});
 				}
 
 				var stafflog = new staffLogModel();
-				stafflog.type = type;
-				stafflog.sitesafe = sitesafe;
-				stafflog.timestamp = (timestamp)?timestamp * 1000:new Date().getTime();
+				stafflog.type			= type;
+				stafflog.sitesafe		= sitesafe;
+				stafflog.timestamp		= (timestamp)?timestamp * 1000:new Date().getTime();
+				stafflog.trade			= staff.trade;
+				stafflog.questions		= staff.questions;
+				stafflog.hazards		= staff.hazards;
+				stafflog.hazardsText	= staff.hazardsText;
+				stafflog.induction		= staff.induction;
+				stafflog.evacutation	= staff.evacuation;
+				stafflog.documents		= staff.documents;
 
 				stafflog.save(function(err, nlog){
 					if(err){
@@ -42,7 +47,42 @@ module.exports = function (opts) {
 				if(err){
 					return res.json({ success : false, error : "Internal server error" });
 				} else {
-					return res.json({ success : true, logs : logs });
+					
+					var returnValue = [];
+					for(var i = 0; i < logs.length; i++){
+						var log = {};
+
+						log.sitesafe = logs[i].sitesafe;
+						log.timestamp = logs[i].timestamp;
+						log.type = logs[i].type;
+						log.trade = logs[i].trade;
+
+						try
+						{
+							log.questions = JSON.parse(logs[i].questions);
+						}
+						catch (e)
+						{
+							log.questions = {};
+						}
+						
+						log.hazards = logs[i].hazards;
+						log.hazardsText = logs[i].hazardsText;
+						log.induction = logs[i].induction;
+						log.evacuation = logs[i].evacuation;
+
+						try
+						{
+							log.documents = JSON.parse(logs[i].documents);
+						}
+						catch (e)
+						{
+							log.documents = {};
+						}
+
+						returnValue.push(log);
+					}
+					return res.json({ success : true, logs : returnValue });
 				}
 			});
 		}

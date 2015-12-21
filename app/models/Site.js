@@ -7,9 +7,8 @@ module.exports = function (opts) {
             required: true
         },
 		company : {
-            //type: mongoose.Schema.ObjectId,
-            //ref: "Company"
-			type: String
+            type: mongoose.Schema.ObjectId,
+            ref: "Company"
 		},
 		startDate : {
 			type: String,
@@ -26,6 +25,9 @@ module.exports = function (opts) {
 		closeTime : {
 			type: String,
 			required: true
+		},
+		createdAt : {
+			type : Number
 		},
 		address : {
 			type: String,
@@ -50,7 +52,19 @@ module.exports = function (opts) {
 		lng : {
 			type: String,
 			required: true
-		}
+		},
+		inspection : {
+			type: String
+		},
+		notice : {
+			type: String
+		},
+		documents : {
+			type: String
+		},
+		rule : {
+			type: String
+		},
     });
     
     return Schema;

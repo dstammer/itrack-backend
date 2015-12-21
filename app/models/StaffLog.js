@@ -10,6 +10,27 @@ module.exports = function (opts) {
 		},
 		type : {
             type: String
+		},
+		trade : {
+            type: String
+		},
+		questions : {
+            type: String
+		},
+		hazards : {
+            type: String
+		},
+		hazardsText : {
+            type: String
+		},
+		induction : {
+            type: String
+		},
+		evacuation : {
+            type: String
+		},
+		documents : {
+            type: String
 		}
     });
     

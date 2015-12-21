@@ -16,7 +16,7 @@ module.exports = function (passport, opts, cb) {
 	});
 
 	passport.use('local-login', new LocalStrategy({usernameField: 'name', passwordField: 'password', passReqToCallback: true}, function(req, name, password, done){
-		userModel.findOne({$and : [{'name': name}, {'password':password}]}).populate('company', 'site').exec(function(err, user){
+		userModel.findOne({$and : [{'email': name}, {'password':password}]}).exec(function(err, user){
 			if(err){
 				console.log(err);
 				console.log(' ---- err ---- ');
@@ -27,7 +27,34 @@ module.exports = function (passport, opts, cb) {
 				return done(null, false, req.flash('loginMessage', 'Could not find any user with given credentials.'));
 			}
 
-			return done(null, user);
+
+			var u = {};
+						
+			u._id = user._id
+			u.name = user.name;
+			u.site = user.site;
+			u.company = user.company;
+			u.ownedCompany = user.ownedCompany;
+			u.role = user.role;
+			user.sitesafe = user.sitesafe;
+			u.mobile = user.mobile;
+			u.phone = user.phone;
+			u.fax = user.fax;
+			u.email = user.email;
+			u.password = user.password;
+
+			try
+			{
+				u.preferences = JSON.parse(user.preferences);
+			}
+			catch (e)
+			{
+				u.preferences = {};
+			}
+
+			console.log(u);
+
+			return done(null, u);
 		});
 	}));
 
